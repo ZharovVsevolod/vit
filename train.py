@@ -4,7 +4,7 @@ from vit.dataset import ViT_DataModule
 import lightning as L
 from lightning.pytorch.loggers import WandbLogger
 import wandb
-from pytorch_lightning.callbacks import ModelCheckpoint
+from lightning.pytorch.callbacks import ModelCheckpoint, LearningRateMonitor
 
 def vit_train():
     dm = ViT_DataModule()
@@ -18,13 +18,14 @@ def vit_train():
         save_top_k=3,
         monitor="val_loss"
     )
+    lr_monitor = LearningRateMonitor(logging_interval="epoch")
 
     trainer = L.Trainer(
         max_epochs=config.NUM_EPOCHS,
         accelerator="auto",
         devices=1,
         logger=wandb_log,
-        callbacks=[checkpoint],
+        callbacks=[checkpoint, lr_monitor],
         default_root_dir=config.TRAINER_ROOT_DIR
     )
     trainer.fit(model=model, datamodule=dm)
