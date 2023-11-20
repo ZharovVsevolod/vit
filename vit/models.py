@@ -7,6 +7,7 @@ import einops
 import lightning as L
 from . import config
 from torch.nn import functional as F
+from torchmetrics.classification import MulticlassAccuracy
 
 class PatchEmbedding(nn.Module):
     """ Image to Patch Embedding
@@ -219,6 +220,7 @@ class ViT_Lightning(L.LightningModule):
             self.vit_model = previous_model
         
         self.need_only_class_prediction = need_only_class_pred
+        self.metric = MulticlassAccuracy(num_classes=config.NUM_CLASSES)
         self.save_hyperparameters()
 
     def forward(self, x) -> Any:
@@ -234,24 +236,28 @@ class ViT_Lightning(L.LightningModule):
         x, y = batch
 
         if self.need_only_class_prediction:
-            out = self(x)[:,:,-1]
+            out = self(x)[:,-1,:]
         else:
             out = self(x)
         
         pred_loss = self.loss(out, y)
         self.log("train_loss", pred_loss)
+        if self.need_only_class_prediction:
+            self.log("train_acc", self.metric(out, y))
         return pred_loss
     
     def validation_step(self, batch) -> STEP_OUTPUT:
         x, y = batch
 
         if self.need_only_class_prediction:
-            out = self(x)[:,:,-1]
+            out = self(x)[:,-1,:]
         else:
             out = self(x)
         
         pred_loss = self.loss(out, y)
         self.log("val_loss", pred_loss)
+        if self.need_only_class_prediction:
+            self.log("val_acc", self.metric(out, y))
     
     def test_step(self, batch) -> STEP_OUTPUT:
         pass

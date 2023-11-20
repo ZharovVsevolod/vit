@@ -1,6 +1,6 @@
-from .vit import config
-from .vit.models import ViT_Lightning
-from .vit.dataset import ViT_DataModule
+from vit import config
+from vit.models import ViT_Lightning
+from vit.dataset import ViT_DataModule
 import lightning as L
 from lightning.pytorch.loggers import WandbLogger
 import wandb
@@ -26,7 +26,8 @@ def vit_train():
         devices=1,
         logger=wandb_log,
         callbacks=[checkpoint, lr_monitor],
-        default_root_dir=config.TRAINER_ROOT_DIR
+        default_root_dir=config.TRAINER_ROOT_DIR,
+        fast_dev_run=5
     )
     trainer.fit(model=model, datamodule=dm)
 

@@ -7,7 +7,7 @@ PATCH_SIZE:int = 20
 IN_CHANNELS:int = 3
 NUM_CLASSES:int = 3
 EMBEDDING_DIM:int = 768
-DEPTH:int = 12
+DEPTH:int = 8
 NUM_HEADS:int = 12
 MLP_RATIO:float = 4.0
 QKV_BIAS:bool = False
@@ -21,7 +21,7 @@ CASHE_DIRECTORY = os.path.join("cache", "hf")
 # Некоторые гиперпараметры
 LEARNIG_RATE:float = 1e-5
 NUM_EPOCHS = 100
-BATCH_SIZE = 64
+BATCH_SIZE = 16
 
 # Пути входа и выхода данных
 BASE_OUTPUT = "output"
