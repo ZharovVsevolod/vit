@@ -26,8 +26,7 @@ def vit_train():
         devices=1,
         logger=wandb_log,
         callbacks=[checkpoint, lr_monitor],
-        default_root_dir=config.TRAINER_ROOT_DIR,
-        fast_dev_run=5
+        default_root_dir=config.TRAINER_ROOT_DIR
     )
     trainer.fit(model=model, datamodule=dm)
 
