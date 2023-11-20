@@ -2,10 +2,10 @@ import torch
 import os
 
 # Конфигурация ViT
-IMAGE_SIZE:int = 224
-PATCH_SIZE:int = 16
+IMAGE_SIZE:int = 500
+PATCH_SIZE:int = 20
 IN_CHANNELS:int = 3
-NUM_CLASSES:int = 1000
+NUM_CLASSES:int = 3
 EMBEDDING_DIM:int = 768
 DEPTH:int = 12
 NUM_HEADS:int = 12
@@ -20,7 +20,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # Некоторые гиперпараметры
 LEARNIG_RATE:float = 1e-5
 NUM_EPOCHS = 100
-BATCH_SIZE = 128
+BATCH_SIZE = 64
 
 # Пути входа и выхода данных
 BASE_OUTPUT = "output"
@@ -31,3 +31,4 @@ MODEL_PATH = os.path.join(BASE_OUTPUT, "saved_model")
 TRAINER_ROOT_DIR = os.path.join(BASE_OUTPUT, "checkpoints")
 
 DATASET_NAME = "beans"
+DATASET_SPLIT = ["train", "validation", "test"]
