@@ -22,6 +22,7 @@ def load_data_beans():
     )
     ds.save_to_disk(config.IMAGES_TEST_PATH)
 
+# load_data_beans()
 
 ds = load_from_disk("./dataset/train")
 print(ds[0])
