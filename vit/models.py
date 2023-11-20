@@ -169,11 +169,9 @@ class ViT(nn.Module):
     """
     def __init__(self, img_size=224, patch_size=16, in_chans=3, num_classes=1000,
                  embed_dim=768, depth=12, num_heads=12, mlp_ratio=4.,
-                 qkv_bias=False, drop_rate=0.0,
-                 need_only_class_pred=config.ONLY_CLASS_PREDICTION):
+                 qkv_bias=False, drop_rate=0.0):
         super().__init__()
         # Присвоение переменных
-        self.need_only_class_prediction = need_only_class_pred
         # Path Embeddings, CLS Token, Position Encoding
         self.patch_emb = PatchEmbedding(
             img_size=img_size,
@@ -208,7 +206,7 @@ class ViT_Lightning(L.LightningModule):
             self, previous_model = None,
             img_size:int=config.IMAGE_SIZE, patch_size:int=config.PATCH_SIZE, in_chans:int=config.IN_CHANNELS, num_classes:int=config.NUM_CLASSES,
             embed_dim:int=config.EMBEDDING_DIM, depth:int=config.DEPTH, num_heads:int=config.NUM_HEADS, mlp_ratio:float=config.MLP_RATIO,
-            qkv_bias:bool=config.QKV_BIAS, drop_rate:float=config.DROP_RATE
+            qkv_bias:bool=config.QKV_BIAS, drop_rate:float=config.DROP_RATE, need_only_class_pred=config.ONLY_CLASS_PREDICTION
         ) -> None:
         super().__init__()
         if previous_model is None:
@@ -219,6 +217,8 @@ class ViT_Lightning(L.LightningModule):
             )
         else:
             self.vit_model = previous_model
+        
+        self.need_only_class_prediction = need_only_class_pred
         self.save_hyperparameters()
 
     def forward(self, x) -> Any:
