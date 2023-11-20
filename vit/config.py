@@ -29,3 +29,5 @@ IMAGES_VAL_PATH = os.path.join("dataset", "validation")
 IMAGES_TEST_PATH = os.path.join("dataset", "test")
 MODEL_PATH = os.path.join(BASE_OUTPUT, "saved_model")
 TRAINER_ROOT_DIR = os.path.join(BASE_OUTPUT, "checkpoints")
+
+DATASET_NAME = "beans"

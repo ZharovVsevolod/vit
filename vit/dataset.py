@@ -34,14 +34,14 @@ class ViT_DataModule(L.LightningDataModule):
     def __init__(self) -> None:
         super().__init__()
 
-    def load_data_from_hf(name = "beans", split = ["train", "validation", "test"]):
-        ds = load_dataset(path=name, split=split[0])
+    def load_data_from_hf(split = ["train", "validation", "test"]):
+        ds = load_dataset(path=config.DATASET_NAME, split=split[0])
         ds.save_to_disk(config.IMAGES_TRAIN_PATH)
 
-        ds = load_dataset(path=name, split=split[1])
+        ds = load_dataset(path=config.DATASET_NAME, split=split[1])
         ds.save_to_disk(config.IMAGES_VAL_PATH)
 
-        ds = load_dataset(path=name, split=split[2])
+        ds = load_dataset(path=config.DATASET_NAME, split=split[2])
         ds.save_to_disk(config.IMAGES_TEST_PATH)
     
     def prepare_data(self) -> None:
