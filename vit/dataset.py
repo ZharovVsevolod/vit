@@ -22,7 +22,7 @@ class Dataset_for_Images(Dataset):
         image_path = self.image_paths[index]
 
         image = cv2.imread(image_path)
-        image = image.astype("float64") / 255.0
+        image = image.astype("float32") / 255.0
 
         image = torch.tensor(image)
         if self.need_rearrange:
@@ -35,13 +35,13 @@ class ViT_DataModule(L.LightningDataModule):
         super().__init__()
 
     def load_data_from_hf(self):
-        ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[0])
+        ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[0], cache_dir=config.CASHE_DIRECTORY)
         ds.save_to_disk(config.IMAGES_TRAIN_PATH)
 
-        ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[1])
+        ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[1], cache_dir=config.CASHE_DIRECTORY)
         ds.save_to_disk(config.IMAGES_VAL_PATH)
 
-        ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[2])
+        ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[2], cache_dir=config.CASHE_DIRECTORY)
         ds.save_to_disk(config.IMAGES_TEST_PATH)
     
     def prepare_data(self) -> None:

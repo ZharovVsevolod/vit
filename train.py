@@ -1,6 +1,6 @@
-from vit import config
-from vit.models import ViT_Lightning
-from vit.dataset import ViT_DataModule
+from .vit import config
+from .vit.models import ViT_Lightning
+from .vit.dataset import ViT_DataModule
 import lightning as L
 from lightning.pytorch.loggers import WandbLogger
 import wandb

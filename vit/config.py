@@ -16,6 +16,7 @@ ONLY_CLASS_PREDICTION:bool = True
 
 # Определение device
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+CASHE_DIRECTORY = os.path.join("cache", "hf")
 
 # Некоторые гиперпараметры
 LEARNIG_RATE:float = 1e-5

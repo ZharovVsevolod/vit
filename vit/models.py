@@ -32,7 +32,7 @@ class PatchEmbedding(nn.Module):
             image = einops.rearrange(image, "b c h w -> b c h w", h = self.img_size, w = self.img_size)
         except Exception:
             print(f"В будущем тут будет поддержка изображений других размерностей, но пока только {self.img_size}x{self.img_size}")
-
+        
         patches = self.patch_embeddings(image)
         patches = einops.rearrange(patches, "b c h w -> b (h w) c")
         patches = patches + self.positional_embedding.data
