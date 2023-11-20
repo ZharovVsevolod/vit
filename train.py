@@ -16,7 +16,7 @@ def vit_train():
     checkpoint = ModelCheckpoint(
         dirpath=config.MODEL_PATH,
         save_top_k=3,
-        monitor="val_loss"
+        monitor="val_acc"
     )
     lr_monitor = LearningRateMonitor(logging_interval="epoch")
 
