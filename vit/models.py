@@ -1,4 +1,5 @@
 from typing import Any
+import lightning.pytorch as pl
 from lightning.pytorch.utilities.types import STEP_OUTPUT, OptimizerLRScheduler
 import torch
 from torch import nn
@@ -168,10 +169,11 @@ class ViT(nn.Module):
     """
     def __init__(self, img_size=224, patch_size=16, in_chans=3, num_classes=1000,
                  embed_dim=768, depth=12, num_heads=12, mlp_ratio=4.,
-                 qkv_bias=False, drop_rate=0.):
+                 qkv_bias=False, drop_rate=0.0,
+                 need_only_class_pred=config.ONLY_CLASS_PREDICTION):
         super().__init__()
         # Присвоение переменных
-        ...
+        self.need_only_class_prediction = need_only_class_pred
         # Path Embeddings, CLS Token, Position Encoding
         self.patch_emb = PatchEmbedding(
             img_size=img_size,
@@ -226,18 +228,28 @@ class ViT_Lightning(L.LightningModule):
         return F.cross_entropy(y, y_hat)
 
     def lr_scheduler(self, optimizer):
-        return torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=20, factor=0.5)
+        return torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, factor=0.1)
 
     def training_step(self, batch) -> STEP_OUTPUT:
         x, y = batch
-        out = self(x)[:,:,-1]
+
+        if self.need_only_class_prediction:
+            out = self(x)[:,:,-1]
+        else:
+            out = self(x)
+        
         pred_loss = self.loss(out, y)
         self.log("train_loss", pred_loss)
         return pred_loss
     
     def validation_step(self, batch) -> STEP_OUTPUT:
         x, y = batch
-        out = self(x)
+
+        if self.need_only_class_prediction:
+            out = self(x)[:,:,-1]
+        else:
+            out = self(x)
+        
         pred_loss = self.loss(out, y)
         self.log("val_loss", pred_loss)
     
@@ -251,3 +263,9 @@ class ViT_Lightning(L.LightningModule):
             {'optimizer': optimizer, 'lr_scheduler': {"scheduler": sched, "monitor": "val_loss"}},
         )
 
+class ImagesLogger(L.Callback):
+    def __init__(self) -> None:
+        super().__init__()
+    
+    def on_validation_epoch_end(self, trainer: L.Trainer, pl_module: L.LightningModule) -> None:
+        return super().on_validation_epoch_end(trainer, pl_module)

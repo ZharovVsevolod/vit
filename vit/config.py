@@ -12,6 +12,7 @@ NUM_HEADS:int = 12
 MLP_RATIO:float = 4.0
 QKV_BIAS:bool = False
 DROP_RATE:float = 0.0
+ONLY_CLASS_PREDICTION:bool = True
 
 # Определение device
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -26,3 +27,5 @@ BASE_OUTPUT = "output"
 IMAGES_TRAIN_PATH = os.path.join("dataset", "train")
 IMAGES_VAL_PATH = os.path.join("dataset", "validation")
 IMAGES_TEST_PATH = os.path.join("dataset", "test")
+MODEL_PATH = os.path.join(BASE_OUTPUT, "saved_model")
+TRAINER_ROOT_DIR = os.path.join(BASE_OUTPUT, "checkpoints")
