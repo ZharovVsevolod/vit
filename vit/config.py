@@ -20,8 +20,8 @@ CASHE_DIRECTORY = os.path.join("cache", "hf")
 
 # Некоторые гиперпараметры
 LEARNIG_RATE:float = 1e-5
-NUM_EPOCHS = 100
-BATCH_SIZE = 16
+NUM_EPOCHS:int = 100
+BATCH_SIZE:int = 16
 
 # Пути входа и выхода данных
 BASE_OUTPUT = "output"
