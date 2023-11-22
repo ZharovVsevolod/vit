@@ -10,7 +10,7 @@ import albumentations as A
 import numpy as np
 
 class Dataset_for_Images(Dataset):
-    def __init__(self, image_paths, labels, need_rearrange=True, need_albumantations = True) -> None:
+    def __init__(self, image_paths, labels, need_rearrange=True, need_albumantations = config.NEED_ALBUMENTATION) -> None:
         super().__init__()
 
         self.image_paths = image_paths

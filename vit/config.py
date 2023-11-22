@@ -22,6 +22,7 @@ CASHE_DIRECTORY = os.path.join("cache", "hf")
 LEARNIG_RATE:float = 1e-5
 NUM_EPOCHS:int = 100
 BATCH_SIZE:int = 16
+NEED_ALBUMENTATION = False
 
 # Пути входа и выхода данных
 BASE_OUTPUT = "output"
