@@ -34,7 +34,7 @@ class Dataset_for_Images(Dataset):
         image = image.astype("float32") / 255.0
         
         image = np.array(image)
-        image = self.aug(image)["image"]
+        image = self.aug(image=image)["image"]
 
         image = torch.tensor(image)
         if self.need_rearrange:
