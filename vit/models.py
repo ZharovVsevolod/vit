@@ -230,7 +230,10 @@ class ViT_Lightning(L.LightningModule):
         return F.cross_entropy(y, y_hat)
 
     def lr_scheduler(self, optimizer):
-        return torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, factor=0.1)
+        if config.TYPE_OF_SCHEDULER == "ReduceOnPlateau":
+            return torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, factor=0.1)
+        if config.TYPE_OF_SCHEDULER == "OneCycleLR":
+            return torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=config.LEARNIG_RATE * 10, total_steps=config.NUM_EPOCHS)
 
     def training_step(self, batch) -> STEP_OUTPUT:
         x, y = batch
@@ -265,9 +268,14 @@ class ViT_Lightning(L.LightningModule):
     def configure_optimizers(self) -> OptimizerLRScheduler:
         optimizer = torch.optim.Adam(self.parameters(), lr=config.LEARNIG_RATE)
         sched = self.lr_scheduler(optimizer)
-        return (
-            {'optimizer': optimizer, 'lr_scheduler': {"scheduler": sched, "monitor": "val_loss"}},
-        )
+        if config.TYPE_OF_SCHEDULER == "ReduceOnPlateau":
+            return (
+                {'optimizer': optimizer, 'lr_scheduler': {"scheduler": sched, "monitor": "val_loss"}},
+            )
+        if config.TYPE_OF_SCHEDULER == "OneCycleLR":
+            return(
+                {'optimizer': optimizer, 'lr_scheduler': {"scheduler": sched}},
+            )
 
 class ImagesLogger(L.Callback):
     def __init__(self) -> None:

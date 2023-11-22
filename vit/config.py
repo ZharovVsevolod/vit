@@ -1,5 +1,6 @@
 import torch
 import os
+from typing import Literal
 
 # Конфигурация ViT
 IMAGE_SIZE:int = 500
@@ -23,6 +24,7 @@ LEARNIG_RATE:float = 1e-5
 NUM_EPOCHS:int = 100
 BATCH_SIZE:int = 16
 NEED_ALBUMENTATION = False
+TYPE_OF_SCHEDULER: Literal["ReduceOnPlateau", "OneCycleLR"] = "OneCycleLR"
 
 # Пути входа и выхода данных
 BASE_OUTPUT = "output"
