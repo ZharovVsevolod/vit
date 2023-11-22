@@ -233,7 +233,7 @@ class ViT_Lightning(L.LightningModule):
         if config.TYPE_OF_SCHEDULER == "ReduceOnPlateau":
             return torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, patience=5, factor=0.1)
         if config.TYPE_OF_SCHEDULER == "OneCycleLR":
-            return torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=config.LEARNIG_RATE * 10, total_steps=config.NUM_EPOCHS)
+            return torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=config.LEARNIG_RATE * config.LEARNIG_RATE_COEF_FOR_CYCLE, total_steps=config.NUM_EPOCHS)
 
     def training_step(self, batch) -> STEP_OUTPUT:
         x, y = batch

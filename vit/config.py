@@ -20,11 +20,12 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 CASHE_DIRECTORY = os.path.join("cache", "hf")
 
 # Некоторые гиперпараметры
-LEARNIG_RATE:float = 1e-5
 NUM_EPOCHS:int = 100
 BATCH_SIZE:int = 16
 NEED_ALBUMENTATION = False
+LEARNIG_RATE:float = 1e-5
 TYPE_OF_SCHEDULER: Literal["ReduceOnPlateau", "OneCycleLR"] = "OneCycleLR"
+LEARNIG_RATE_COEF_FOR_CYCLE:int = 2
 
 # Пути входа и выхода данных
 BASE_OUTPUT = "output"
