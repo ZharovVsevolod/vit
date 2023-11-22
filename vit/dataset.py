@@ -66,11 +66,11 @@ class ViT_DataModule(L.LightningDataModule):
             self.train_ds = Dataset_for_Images(ds_train["image_file_path"], ds_train["labels"])
 
             ds_val = load_from_disk(config.IMAGES_VAL_PATH)
-            self.val_ds = Dataset_for_Images(ds_val["image_file_path"], ds_val["labels"])
+            self.val_ds = Dataset_for_Images(ds_val["image_file_path"], ds_val["labels"], need_albumantations=False)
 
         if stage == "test" or stage is None:
             ds_test = load_from_disk(config.IMAGES_TEST_PATH)
-            self.test_ds = Dataset_for_Images(ds_test["image_file_path"], ds_test["labels"])
+            self.test_ds = Dataset_for_Images(ds_test["image_file_path"], ds_test["labels"], need_albumantations=False)
     
     def train_dataloader(self) -> TRAIN_DATALOADERS:
         return DataLoader(

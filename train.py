@@ -11,7 +11,7 @@ def vit_train():
     model = ViT_Lightning()
 
     wandb.login(key="dec2ee769ce2e455dd463be9b11767cf8190d658")
-    wandb_log = WandbLogger(project="vit", name="vit_1", save_dir=config.BASE_OUTPUT)
+    wandb_log = WandbLogger(project="vit_beans", name="vit_clr-5x2_dr1_alb", save_dir=config.BASE_OUTPUT)
 
     checkpoint = ModelCheckpoint(
         dirpath=config.MODEL_PATH,
