@@ -48,14 +48,19 @@ class ViT_DataModule(L.LightningDataModule):
         super().__init__()
 
     def load_data_from_hf(self):
-        ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[0], cache_dir=config.CASHE_DIRECTORY)
-        ds.save_to_disk(config.IMAGES_TRAIN_PATH)
+        if config.DATASET_NAME == "beans":
+            ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[0], cache_dir=config.CASHE_DIRECTORY)
+            ds.save_to_disk(config.IMAGES_TRAIN_PATH)
 
-        ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[1], cache_dir=config.CASHE_DIRECTORY)
-        ds.save_to_disk(config.IMAGES_VAL_PATH)
+            ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[1], cache_dir=config.CASHE_DIRECTORY)
+            ds.save_to_disk(config.IMAGES_VAL_PATH)
 
-        ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[2], cache_dir=config.CASHE_DIRECTORY)
-        ds.save_to_disk(config.IMAGES_TEST_PATH)
+            ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[2], cache_dir=config.CASHE_DIRECTORY)
+            ds.save_to_disk(config.IMAGES_TEST_PATH)
+        
+        if config.DATASET_NAME == "huggan/wikiart":
+            ds = load_dataset(path=config.DATASET_NAME, split=config.DATASET_SPLIT[0], cache_dir=config.CASHE_DIRECTORY)
+            
     
     def prepare_data(self) -> None:
         self.load_data_from_hf()

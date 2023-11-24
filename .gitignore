@@ -3,3 +3,4 @@ vit/__pycache__/
 __pycache__/
 cache/
 output/
+some_tests.py
